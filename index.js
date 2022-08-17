@@ -1,22 +1,62 @@
-const sing1 = prompt();
-const sing2 = prompt();
-const number1 = +sing1;
-const number2 = +sing2;
+function makeObjectDeepCopy(target) {
+  if (target === null || target === undefined) {
+    return target
+  }
 
-// Code style says "Don't push console.log", but task descriptions demand console.log  in answers.
-(function task1() {
-  if (isNaN(number1) || isNaN(number2)) {
-    return console.log("Некорректный ввод!");
-  };
-  console.log(number1.toString(number2));
-})();
+  if (typeof(target) === 'object') {
+    let cloneTarget = Array.isArray(target) ? [] : {};
+    for (const propety in target) {
+      cloneTarget[propety] = makeObjectDeepCopy(target[propety]);
+    };
 
-(function task2() {
-  if (isNaN(number1)) {
-    return console.log("Некорректный ввод!");
+    return cloneTarget;
   };
-  if (isNaN(number2)) {
-    console.log("Некорректный ввод!");
+
+  return target
+};
+
+
+function selectFromInterval(arr, number1, number2) {
+  if (!Array.isArray(arr) || typeof(number1) !== 'number' || typeof(number2) !== 'number') {
+    throw new Error();
   };
-  console.log(`Ответ: ${number1 + number2}, ${number1 / number2}.`)
-})();
+
+  const isValidArray = arr.every((e) => typeof e === 'number');
+
+  if (!isValidArray) {
+    throw new Error();
+  };
+
+  if (number1 > number2) {
+    [number2, number1] = [number1, number2];
+  };
+  return  arr.filter((n) => n >= number1 && n <= number2)
+};
+
+let myIterable = {
+  from: 1,
+  to: 4,
+  [Symbol.iterator]() {
+    let fromNumber = this.from;
+    const toNumber = this.to;
+    const isError = toNumber < fromNumber ||  typeof(fromNumber) !== 'number' || typeof(toNumber) !== 'number';
+    return {
+      next() {
+        if (isError) {
+          throw new Error()
+        };
+
+        if (fromNumber <= toNumber) {
+          return {
+            value: fromNumber++,
+            done: false
+          }
+        } else {
+          return {
+            done: true
+          }
+        };
+      }
+    }
+  }
+};
