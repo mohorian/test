@@ -15,7 +15,6 @@ function makeObjectDeepCopy(target) {
   return target
 };
 
-
 function selectFromInterval(arr, number1, number2) {
   if (!Array.isArray(arr) || typeof(number1) !== 'number' || typeof(number2) !== 'number') {
     throw new Error();
