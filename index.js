@@ -1,22 +1,62 @@
-Array.prototype.myFilter = function myFilter(callback, arr = this) {
-  const output = [];
+function concatStrings(string, separator) {
+  
+  return function(nextString) {
+    if (typeof string !== 'string') {
+    
+      return
+    };
 
-  for (let i = 0; i < arr.length; i++) {
-    if (callback(arr[i], i, arr)) {
-      output.push(arr[i]);
-    }
-  };
+    if (typeof nextString !== 'string') {
 
-  return output
-};
+      return console.log(string)
+    };
 
-function createDebounceFunction(callback, delay) {
-  let timeout;
+    if (typeof separator !== 'string') {
+      separator = '';
+    };
 
-  return function executedFunction() {
-    const func = () => { callback.apply(this, arguments)};
+    const newString = string + separator + nextString;
 
-    clearTimeout(timeout);
-    timeout = setTimeout(func, delay);
+    return concatStrings(newString, separator)
   }
 };
+
+class Calculator {
+  constructor(height, width) {
+    this.height = this.setX(height);
+    this.width = this.setY(width);
+  }
+
+  setX(height) {
+    if (Number.isFinite(height)) {
+      return this.height = height
+    }
+
+    throw new Error();
+  };
+
+  setY(width) {
+    if (Number.isFinite(width)) {
+      return this.width = width
+    }
+
+    throw new Error();
+  };
+
+  logSum() {
+    return this.height + this.width
+  };
+
+  logMul() {
+    return this.height * this.width
+  };
+
+  logSub() {
+    return this.height - this.width
+  };
+
+  logDiv() {
+    return this.height / this.width
+  }
+};
+
