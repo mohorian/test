@@ -6,7 +6,7 @@ class Stack {
 
     this.maxItems = maxItems;
     this.stack = [];
-  }
+  };
 
   push(elem) {
     if (this.stack.length === this.maxItems) {
@@ -27,7 +27,6 @@ class Stack {
     this.stack.length = this.stack.length - 1;
 
     return elem
-
   };
 
   peek() {
@@ -66,7 +65,6 @@ class Stack {
 
     return newStack
   };
-
 };
 
 class LinkedList {
