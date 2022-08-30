@@ -1,44 +1,48 @@
 class Stack {
+  #order;
+  #stack;
+
   constructor(maxItems = 10) {
     if (!Number.isFinite(maxItems) || maxItems <= 0) {
       throw new Error;
     };
 
     this.maxItems = maxItems;
-    this.stack = [];
+    this.#order = 0;
+    this.#stack = {};
   };
 
   push(elem) {
-    if (this.stack.length === this.maxItems) {
+    if (this.#order === this.maxItems) {
       throw new Error();
     };
 
-    this.stack[this.stack.length] = elem;
+    this.#stack[++this.#order] = elem;
   };
 
   pop() {
-    if (this.stack.length === 0) {
+    if (this.#order === 0) {
       throw new Error();
     };
 
-    const elem = this.stack[this.stack.length - 1];
+    const elem = this.#stack[this.#order];
 
-    delete this.stack[this.stack.length - 1];
-    this.stack.length = this.stack.length - 1;
-
+    delete this.#stack[this.#order];
+    this.#order--;
+    
     return elem
   };
 
   peek() {
-    if (this.stack.length === 0) {
+    if (this.#order === 0) {
       return null
     };
 
-    return this.stack[this.stack.length - 1]
+    return this.#stack[this.#order]
   };
 
   isEmpty() {
-    if (this.stack.length === 0) {
+    if (this.#order === 0) {
       return true
     };
 
@@ -46,7 +50,11 @@ class Stack {
   };
 
   toArray() {
-    const stackCopy = [...this.stack];
+    const stackCopy = [];
+
+    for (let i = 0; i < this.#order; i++) {
+      stackCopy[i] = this.#stack[i + 1];
+    }
 
     return stackCopy
   };
@@ -59,32 +67,34 @@ class Stack {
     const newStack = new Stack();
 
     for (const index in iterable) {
-      newStack.stack[newStack.stack.length] = iterable[index];
+      newStack.#stack[++newStack.#order] = iterable[index];
     };
-    newStack.maxItems = newStack.stack.length;
+    newStack.maxItems = newStack.#order;
 
     return newStack
   };
 };
 
 class LinkedList {
+  #list;
+
   constructor() {
-    this.list = [];
+    this.#list = [];
   };
 
   append(elem) {
-    this.list[this.list.length] = elem;
+    this.#list[this.#list.length] = elem;
   };
 
   prepend(elem) {
-    for (let i = this.list.length; i < 0; i--) {
-      this.list[i + 1] = this.list[i];
+    for (let i = this.#list.length; i < 0; i--) {
+      this.#list[i + 1] = this.#list[i];
     };
-    this.list[0] = elem;
+    this.#list[0] = elem;
   };
 
   find(elem) {
-    if (this.list.includes(elem)) {
+    if (this.#list.includes(elem)) {
       return elem
     };
 
@@ -92,7 +102,7 @@ class LinkedList {
   };
 
   toArray() {
-    const newList = [...this.list];
+    const newList = [...this.#list];
 
     return newList
   };
@@ -105,7 +115,7 @@ class LinkedList {
     const newList = new LinkedList();
 
     for (const index in iterable) {
-      newList.list[newList.list.length] = iterable[index];
+      newList.#list[newList.#list.length] = iterable[index];
     };
 
     return newList
