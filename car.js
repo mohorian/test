@@ -9,7 +9,6 @@ class Car {
   #isStarted;
   #mileage;
   
-
   constructor() {
     this.#brand;
     this.#model;
@@ -100,15 +99,12 @@ class Car {
 
   get mileage() {
     return this.#mileage
-  }
-
-
-
+  };
 
   start() {
     if (this.#isStarted) {
       throw new Error('Машина уже заведена');
-    }
+    };
 
     this.#isStarted = true;
   };
