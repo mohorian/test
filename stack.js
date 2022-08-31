@@ -1,124 +1,156 @@
 class Stack {
-  #order;
-  #stack;
-
   constructor(maxItems = 10) {
     if (!Number.isFinite(maxItems) || maxItems <= 0) {
       throw new Error;
     };
 
     this.maxItems = maxItems;
-    this.#order = 0;
-    this.#stack = {};
+    this.size = 0;
+    this.stack = null;
   };
 
   push(elem) {
-    if (this.#order === this.maxItems) {
+    if (this.size === this.maxItems) {
       throw new Error();
     };
 
-    this.#stack[++this.#order] = elem;
+    const node = {value: elem, previous: this.stack};
+
+    this.stack = node;
+    this.size++;
   };
 
   pop() {
-    if (this.#order === 0) {
+    if (this.size === 0) {
       throw new Error();
     };
 
-    const elem = this.#stack[this.#order];
+    const elem = this.stack.value;
+    this.stack = this.stack.previous;
+    this.size--;
 
-    delete this.#stack[this.#order];
-    this.#order--;
-    
     return elem
   };
 
   peek() {
-    if (this.#order === 0) {
+    if (this.size === 0) {
       return null
     };
 
-    return this.#stack[this.#order]
+    return this.stack
   };
 
   isEmpty() {
-    if (this.#order === 0) {
-      return true
+    if (this.stack) {
+      return false
     };
 
-    return false
+    return true
   };
 
   toArray() {
-    const stackCopy = [];
+    const arr = [];
 
-    for (let i = 0; i < this.#order; i++) {
-      stackCopy[i] = this.#stack[i + 1];
+    while (this.stack) {
+      arr.unshift(this.stack.value);
+      this.stack = this.stack.previous;
     };
 
-    return stackCopy
+    return arr
   };
 
   static fromIterable(iterable) {
-    if (!(Symbol.iterator in Object(iterable))) {
-      throw new Error()
-    };
-
     const newStack = new Stack();
-
+    
     for (const index in iterable) {
-      newStack.#stack[++newStack.#order] = iterable[index];
-    };
-    newStack.maxItems = newStack.#order;
+      const node = {value: iterable[index], previous: newStack.stack};
 
+      newStack.stack = node;
+      newStack.size++;
+    };
+
+    newStack.maxItems = newStack.size;
+    
     return newStack
   };
 };
 
 class LinkedList {
-  #list;
-
   constructor() {
-    this.#list = [];
+    this.head = null;
+    this.tail = null;
   };
 
   append(elem) {
-    this.#list[this.#list.length] = elem;
+    const node = {value: elem, next: null};
+
+    if (this.tail) {
+      this.tail.next = node;
+    };
+
+    if (!this.head) {
+      this.head = node;
+    };
+
+    this.tail = node;
   };
 
   prepend(elem) {
-    for (let i = this.#list.length; i < 0; i--) {
-      this.#list[i + 1] = this.#list[i];
-    };
-    this.#list[0] = elem;
+     const node = {value: elem, next: this.head};
+
+     if (!this.tail) {
+      this.tail = node;
+     };
+
+     this.head = node;
   };
 
   find(elem) {
-    if (this.#list.includes(elem)) {
-      return elem
+    let currentData = this.head;
+
+    while (currentData) {
+      if (currentData.value === elem) {
+        return elem
+      };
+
+      currentData = currentData.next;
     };
 
     return null
   };
 
   toArray() {
-    const newList = [...this.#list];
+    const arr = [];
+    let currentData = this.head;
 
-    return newList
+    while (currentData) {
+      const elem = currentData.value;
+
+      arr.push(elem);
+      currentData = currentData.next;
+    };
+
+    return arr
   };
 
   static fromIterable(iterable) {
-    if (!(Symbol.iterator in Object(iterable))) {
-      throw new Error()
-    };
-
-    const newList = new LinkedList();
+    const newLinkedList = new LinkedList();
 
     for (const index in iterable) {
-      newList.#list[newList.#list.length] = iterable[index];
+      const node = {value: iterable[index], next: null};
+
+      if (newLinkedList.tail) {
+        newLinkedList.tail.next = node;
+      };
+  
+      if (!newLinkedList.head) {
+        newLinkedList.head = node;
+      };
+  
+      newLinkedList.tail = node;
     };
 
-    return newList
+    return newLinkedList
   };
 };
 
