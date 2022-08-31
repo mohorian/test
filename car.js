@@ -27,6 +27,8 @@ class Car {
     if (isValid) {
       this.#brand = brandName;
     }
+
+    throw new Error();
   };
 
   get brand() {
@@ -39,6 +41,8 @@ class Car {
     if (isValid) {
       this.#model = modelName;
     }
+
+    throw new Error();
   };
 
   get model() {
@@ -48,7 +52,9 @@ class Car {
   set yearOfManufacturing(date) {
     if (date >= 1900 && date <= new Date().getFullYear()) {
       this.#yearOfManufacturing = date;
-    }
+    };
+
+    throw new Error();
   };
 
   get yearOfManufacturing() {
@@ -60,7 +66,9 @@ class Car {
 
     if (isValid) {
       this.#maxSpeed = speed;
-    }
+    };
+
+    throw new Error();
   };
 
   get maxSpeed() {
@@ -72,7 +80,9 @@ class Car {
 
     if (isValid) {
       this.#maxFuelVolume = fuelLiters;
-    }
+    };
+
+    throw new Error();
   };
 
   get maxFuelVolume() {
@@ -82,7 +92,9 @@ class Car {
   set fuelConsumption(consumptionLiters) {
     if (Number.isFinite(consumptionLiters) && consumptionLiters > 0) {
       this.#fuelConsumption = consumptionLiters;
-    }
+    };
+
+    throw new Error();
   };
 
   get fuelConsumption() {

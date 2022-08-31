@@ -54,7 +54,7 @@ class Stack {
 
     for (let i = 0; i < this.#order; i++) {
       stackCopy[i] = this.#stack[i + 1];
-    }
+    };
 
     return stackCopy
   };
